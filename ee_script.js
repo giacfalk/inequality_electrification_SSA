@@ -1,7 +1,7 @@
 //Earth Engine Script for: 
-//A Gridded Dataset to Assess Electrification in Sub-Saharan Africa
+//Night lights reveal sub-national inequalities inprogress towards SDG7
 //Giacomo Falchetta, Shonali Pachauri, Simon Parkinson, Edward Byers
-// Version: 07/05/19
+// Version: 01/07/2019
 
 //Import VIIRS nighttime lights provinces shapefile
 var imageCollection = ee.ImageCollection("NOAA/VIIRS/DNB/MONTHLY_V1/VCMSLCFG");
