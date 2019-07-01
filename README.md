@@ -16,3 +16,12 @@ This repository hosts:
 - Run the R script, which reproduces the analysis and the plots contained in the paper.
 
 Source code-related issues should be opened directly on GitHub. Broader questions of the methods should be addressed to giacomo.falchetta@feem.it
+
+
+###
+
+- Link to the repository with the original source code to generate electricity access estimates with remotely sensed data: 
+https://github.com/giacfalk/Electrification_SSA_data
+
+- Link to the dataset: 
+http://dx.doi.org/10.17632/kn4636mtvg
