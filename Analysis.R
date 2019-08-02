@@ -128,7 +128,7 @@ barplot_elrate = ggplot(merged_diff, aes(x=reorder(GID_0, -elrate_diff), y=elrat
   guides(fill = guide_colourbar(barwidth = 10, barheight = 0.5, title.position = "top", title.hjust = 0.5))+
   theme(legend.position="bottom")
 
-ggsave("Barplot_progress.pdf", plot = barplot, device = "pdf", width = 30, height = 15, units = "cm", scale=0.4)
+ggsave("Barplot_progress.pdf", plot = barplot_elrate, device = "pdf", width = 30, height = 15, units = "cm", scale=0.4)
 
 barplot_absolute_day = ggplot(merged_diff, aes(x=reorder(GID_0, -gainedperday), y=gainedperday))+
   theme_classic()+
@@ -228,7 +228,7 @@ barplot_elrate_rur = ggplot(merged_diff_rur, aes(x=reorder(GID_0, -elrate_diff),
   guides(fill = guide_colourbar(barwidth = 10, barheight = 0.5))+
   theme(legend.position="bottom")
 
-ggsave("Barplot_progress_rural.pdf", plot = barplot, device = "pdf", width = 30, height = 15, units = "cm", scale=0.4)
+ggsave("Barplot_progress_rural.pdf", plot = barplot_elrate_rur, device = "pdf", width = 30, height = 15, units = "cm", scale=0.4)
 
 barplot_popch_rur = ggplot(merged_diff_rur, aes(x=reorder(GID_0, -(pop18-pop14)/1000000), y=((pop18-pop14)/1000000)))+
   theme_classic()+
@@ -316,7 +316,7 @@ barplot_elrate_urb = ggplot(merged_diff_urb, aes(x=reorder(GID_0, -elrate_diff),
   guides(fill = guide_colourbar(barwidth = 10, barheight = 0.5))+
   theme(legend.position="bottom")
 
-ggsave("Barplot_progress_urban.pdf", plot = barplot, device = "pdf", width = 30, height = 15, units = "cm", scale=0.4)
+ggsave("Barplot_progress_urban.pdf", plot = barplot_elrate_urb, device = "pdf", width = 30, height = 15, units = "cm", scale=0.4)
 
 barplot_popch_urb = ggplot(merged_diff_urb, aes(x=reorder(GID_0, -(pop18-pop14)/1000000), y=((pop18-pop14)/1000000)))+
   theme_classic()+
