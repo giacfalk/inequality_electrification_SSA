@@ -63,7 +63,7 @@ var nl18 = ee.ImageCollection(output).median()
 // Generate data for population without access for both years
 
 var pop14_noaccess = pop14.mask(pop14.gt(0).and(nl14.lt(0.05)))
-var pop16_noaccess = pop14.mask(pop16.gt(0).and(nl16.lt(0.05)))
+var pop16_noaccess = pop16.mask(pop16.gt(0).and(nl16.lt(0.05)))
 var pop18_noaccess = pop18.mask(pop18.gt(0).and(nl18.lt(0.05)))
 
 //Calculate sum of people without access by province
