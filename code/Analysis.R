@@ -125,6 +125,7 @@ c2 = sum(merged_diff$pop14) - sum(merged_diff$elrate14*merged_diff$pop14)
 # Calculate SSA-wide change in electricity access level
 d =  sum(merged_diff$elrate19*merged_diff$pop19) / sum(merged_diff$pop19)
 e = sum(merged_diff$elrate14*merged_diff$pop14) / sum(merged_diff$pop14)
+d-e
 
 # Calculate SSA-wide change in population
 f =   sum(merged_diff$pop19) -  sum(merged_diff$pop14)
