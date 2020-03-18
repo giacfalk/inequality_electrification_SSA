@@ -44,6 +44,7 @@ library(countrycode)
 library(spatstat)
 library(exactextractr)
 library(stargazer)
+library(viridis)
 
 #Google drive authentication (to be run before launching the entire script)
 drive_find(n_max = 30)
@@ -106,10 +107,10 @@ bubbleplot_elrate <- ggplot(merged_diff, aes(x=elrate_diff*100, y=((pop19/pop14)
                    segment.color = 'grey50', label.size = 0.25, colour="black", size=3) +
    xlab("National electricity access level: percentage points change (2014-2019)") +
    ylab("National population: percentage change (2014-2019)") + 
-  xlim(c(-5,20))+
+  xlim(c(-5,27))+
   geom_vline(xintercept = 0, colour = "black", linetype="dashed")+
   theme_classic()+
-  scale_colour_gradient2(low="firebrick2", mid="gold", midpoint = 0.5, high="forestgreen", name="Electr. \naccess level \n(2019)",  labels = scales::percent_format(accuracy = 1))+
+  scale_colour_viridis(name="Electr. \naccess level \n(2019)",  labels = scales::percent_format(accuracy = 1))+
   ggtitle("National level")+
   scale_y_continuous(labels = scales::percent_format(accuracy = 1))
 
@@ -306,10 +307,10 @@ bubbleplot_elrate_rur <- ggplot(merged_diff_rur, aes(x=elrate_diff*100, y=(pop19
                    segment.color = 'grey50', label.size = 0.25, colour="black", size=3) +
   xlab("Rural electricity access level: percentage points change (2014-2019)") +
   ylab("Rural population: percentage change (2014-2019)") + 
-  xlim(c(-5,20))+
+  xlim(c(-5,27))+
   geom_vline(xintercept = 0, colour = "black", linetype="dashed")+
   theme_classic()+
-  scale_colour_gradient2(low="firebrick2", mid="gold", midpoint = 0.5, high="forestgreen", name="Electr. \naccess level \n(2019)",  labels = scales::percent_format(accuracy = 1))+
+  scale_colour_viridis(name="Electr. \naccess level \n(2019)",  labels = scales::percent_format(accuracy = 1))+
   scale_size(range = c(1, 10), name = "Population \n(million)") +
   ggtitle("Rural areas")+
   scale_y_continuous(labels = scales::percent_format(accuracy = 1))
@@ -382,10 +383,10 @@ bubbleplot_elrate_urb <- ggplot(merged_diff_urb, aes(x=elrate_diff*100, y=(pop19
                    segment.color = 'grey50', label.size = 0.25, colour="black", size=3) +
   xlab("Urban electricity access level: percentage points change (2014-2019)") +
   ylab("Urban population: percentage change (2014-2019)") + 
-  xlim(c(-5,20))+
+  xlim(c(-5,27))+
   geom_vline(xintercept = 0, colour = "black", linetype="dashed")+
   theme_classic()+
-  scale_colour_gradient2(low="firebrick2", mid="gold", midpoint = 0.5, high="forestgreen", name="Electr. \naccess level \n(2019)",  labels = scales::percent_format(accuracy = 1))+
+  scale_colour_viridis(name="Electr. \naccess level \n(2019)",  labels = scales::percent_format(accuracy = 1))+
   scale_size(range = c(1, 10), name = "Population \n(million)") +
   ggtitle("Urban areas")+
   scale_y_continuous(labels = scales::percent_format(accuracy = 1))+ guides(
@@ -397,7 +398,7 @@ pgrid_titles = plot_grid(ggdraw() + draw_label("National", size = 8), ggdraw() +
 
 pgrid = plot_grid(bubbleplot_elrate, bubbleplot_elrate_urb, bubbleplot_elrate_rur, ncol=1, labels = "AUTO")
 
-ggsave("figures/bubbleplots.png", plot = pgrid, device = "png", width = 60, height = 100, units = "cm", scale=0.35, dpi=350)
+ggsave("figures/Figure_1.pdf", plot = pgrid, device = "pdf", width = 60, height = 100, units = "cm", scale=0.35, dpi=350)
 
 #Inequality in ACCESS: calculate indexes and produce Lorenz Curve graphs
 shapefile = st_read("shapefile/gadm36_1.shp")
@@ -439,7 +440,7 @@ for (Z in colist){
     geom_line(data = out_df14, aes(x=p14, y=L14, colour="red"), size=1, alpha=0.8) +
     geom_line(data = out_df19, aes(x=p19, y=L19, color="darkblue"), size=1, alpha=0.8)+
     geom_line(data = databoth, aes(x=p19, y=difference, color="black"), size=1, alpha=0.8)+
-    scale_color_discrete(name = "Legend", labels = c("Difference", "2019", "2014"))+
+    scale_color_viridis(name = "Legend", labels = c("Difference", "2019", "2014"), discrete = TRUE)+
     geom_hline(yintercept = 0, alpha=0.5)+
     scale_x_continuous(name="Cum. percentage of popul. \n from lowest to highest electrified", limits=c(0,1)) + 
     scale_y_continuous(name="Cum. percentage of \n national electr. access", limits=c(-0.1,1), sec.axis = sec_axis(trans= ~  .)) +
@@ -539,7 +540,7 @@ for (Z in colist){
     geom_line(data = out_df14, aes(x=p14, y=L14, colour="red"), size=1, alpha=0.8) +
     geom_line(data = out_df19, aes(x=p19, y=L19, color="darkblue"), size=1, alpha=0.8)+
     geom_line(data = databoth, aes(x=p19, y=difference, color="black"), size=1, alpha=0.8)+
-    scale_color_discrete(name = "Legend", labels = c("Difference", "2019", "2014"))+
+    scale_color_viridis(name = "Legend", labels = c("Difference", "2019", "2014"), discrete = TRUE)+
     geom_hline(yintercept = 0, alpha=0.5)+
     scale_x_continuous(name="", limits=c(0,1)) + 
     scale_y_continuous(name="", limits=c(-0.1,1)) +
@@ -567,7 +568,7 @@ ppp$change=ppp$value.x-ppp$value.y
 pgrid = plot_grid(lorenz[['RWA']] + theme(legend.position="none"), lorenz[['KEN']] + theme(legend.position="none"), lorenz[['ETH']] + theme(legend.position="none"), lorenz[['NGA']]  + theme(legend.position="none"), lorenz[['COD']] + theme(legend.position="none"), lorenz[['UGA']] + theme(legend.position="none"), labels=c("RWA", "KEN", "ETH", "NGA", "COD", "UGA"), label_size = 8, hjust= 0, vjust = 1, ncol=3)
 
 tit_urb <- ggdraw() + draw_label("Urban", size = 10)
-pgrid_u = plot_grid(tit_urb, pgrid, ncol=1, rel_heights=c(0.05, 1))
+pgrid_u = plot_grid(tit_urb, pgrid, ncol=1, rel_heights=c(0.05, 1), labels = c("A", ""))
 
 ##Rural inequality 
 shapefile = st_read("shapefile/gadm36_1.shp")
@@ -608,7 +609,7 @@ for (Z in colist){
     geom_line(data = out_df14, aes(x=p14, y=L14, colour="red"), size=1, alpha=0.8) +
     geom_line(data = out_df19, aes(x=p19, y=L19, color="darkblue"), size=1, alpha=0.8)+
     geom_line(data = databoth, aes(x=p19, y=difference, color="black"), size=1, alpha=0.8)+
-    scale_color_discrete(name = "Legend", labels = c("Difference", "2019", "2014"))+
+    scale_color_viridis(name = "Legend", labels = c("Difference", "2019", "2014"), discrete = TRUE)+
     geom_hline(yintercept = 0, alpha=0.5)+
     scale_x_continuous(name=" ", limits=c(0,1)) + 
     scale_y_continuous(name=" ", limits=c(-0.1,1)) +
@@ -636,7 +637,7 @@ pgrid = plot_grid(lorenz[['RWA']] + theme(legend.position="none"), lorenz[['KEN'
 
 tit_rur <- ggdraw() + draw_label("Rural", size = 10)
 
-pgrid = plot_grid(tit_rur, pgrid, ncol=1, rel_heights=c(0.05,1))
+pgrid = plot_grid(tit_rur, pgrid, ncol=1, rel_heights=c(0.05,1), labels = c("B", ""), vjust = 0.4)
 
 pgrid = plot_grid(pgrid_u, pgrid, ncol=1, rel_heights=c(1,1))
 
@@ -652,7 +653,7 @@ ylab <- ggdraw() + draw_label("Cum. fraction of national electr. access", size =
 
 p <- plot_grid(ylab, p, ncol = 2, rel_widths = c(0.05, 1))
 
-ggsave("figures/Lorenz.png", p, device = "png", width = 26, height = 26, units = "cm", scale=0.7)
+ggsave("figures/Figure_3.pdf", p, device = "pdf", width = 26, height = 36, units = "cm", scale=0.7)
 
 #Define thresholds for consumption tiers to be manually inputted in GEE
 drive_download("input_data/pctiles_pc_urban.csv", type = "csv", overwrite = TRUE)
@@ -828,7 +829,7 @@ barplot_consumption_rur = ggplot() +
   theme_classic()+
   geom_bar(data = dfm_sum_rural, aes(x = GID_0, y = value, fill = tier),stat = "identity", position = "fill") +
   theme(axis.text.x = element_text(angle = 90, size=6.75), legend.position="none", plot.title = element_text(hjust = 0.5))+
-  scale_fill_brewer(name = "Tier of consumption \n (kWh/day/hh)", labels = c("~ 0", "<0.2", "<1", "<3.4", ">3.4"), palette="Spectral")+
+  scale_fill_viridis(name = "Tier of consumption \n (kWh/day/hh)", labels = c("~ 0", "<0.2", "<1", "<3.4", ">3.4"),discrete = TRUE)+
   #ggtitle("")+
   ylab("Rural")+
   xlab("")+
@@ -838,7 +839,7 @@ barplot_consumption_rur_abs = ggplot() +
   theme_classic()+
   geom_bar(data = dfm_sum_rural, aes(x=reorder(GID_0, -value), y = value/1000000, fill = tier),stat = "identity") +
   theme(axis.text.x = element_text(angle = 90, size=6.75), legend.position="none", plot.title = element_text(hjust = 0.5))+
-  scale_fill_brewer(name = "Tier of consumption \n (kWh/day/hh)", labels = c("~ 0", "<0.2", "<1", "<3.4", ">3.4"), palette="Spectral")+
+  scale_fill_viridis(name = "Tier of consumption \n (kWh/day/hh)", labels = c("~ 0", "<0.2", "<1", "<3.4", ">3.4"),discrete = TRUE)+
   ggtitle("")+
   ylab("")+
   xlab("")+
@@ -952,7 +953,7 @@ barplot_consumption_urb = ggplot() +
   theme_classic()+
   geom_bar(data = dfm_sum_urban, aes(x = GID_0, y = value, fill = tier),stat = "identity", position = "fill") +
   theme(axis.text.x = element_text(angle = 90, size=6.75), legend.position="none", plot.title = element_text(hjust = 0.5))+
-  scale_fill_brewer(name = "Tier of consumption \n (kWh/day/hh)", labels = c("~ 0", "<0.2", "<1", "<3.4", ">3.4"), palette="Spectral")+
+  scale_fill_viridis(name = "Tier of consumption \n (kWh/day/hh)", labels = c("~ 0", "<0.2", "<1", "<3.4", ">3.4"),discrete = TRUE)+
   #ggtitle("Urban")+
   ylab("Urban")+
   xlab("")+
@@ -962,7 +963,7 @@ barplot_consumption_urb_abs = ggplot() +
   theme_classic()+
   geom_bar(data = dfm_sum_urban, aes(x=reorder(GID_0, -value), y = value/1000000, fill = tier),stat = "identity") +
   theme(axis.text.x = element_text(angle = 90, size=6.75), legend.position="none", plot.title = element_text(hjust = 0.5))+
-  scale_fill_brewer(name = "Tier of consumption \n (kWh/day/hh)", labels = c("~ 0", "<0.2", "<1", "<3.4", ">3.4"), palette="Spectral")+
+  scale_fill_viridis(name = "Tier of consumption \n (kWh/day/hh)", labels = c("~ 0", "<0.2", "<1", "<3.4", ">3.4"),discrete = TRUE)+
   ggtitle("")+
   ylab("")+
   xlab("")+
@@ -1073,7 +1074,7 @@ barplot_consumption_nat = ggplot() +
   theme_classic()+
   geom_bar(data = dfm_sum_national, aes(x = GID_0, y = value, fill = tier),stat = "identity", position = "fill") +
   theme(legend.direction = "horizontal", axis.text.x = element_text(angle = 90, size=6.75), plot.title = element_text(hjust = 0.5))+
-  scale_fill_brewer(name = "WB-MTF, tier of access", labels = c("0", "1", "2", "3", "4+"), palette="Spectral")+
+  scale_fill_viridis(name = "WB-MTF, tier of access", labels = c("0", "1", "2", "3", "4+"), ,discrete = TRUE)+
   #ggtitle("National")+
   ylab("National")+
   xlab("")+
@@ -1083,7 +1084,7 @@ barplot_consumption_nat_abs = ggplot() +
   theme_classic()+
   geom_bar(data = dfm_sum_national, aes(x=reorder(GID_0, -value), y = value/1000000, fill = tier),stat = "identity") +
   theme(axis.text.x = element_text(angle = 90, size=6.75), legend.position="none", plot.title = element_text(hjust = 0.5))+
-  scale_fill_brewer(name = "Tier of consumption \n (kWh/day/hh)", labels = c("~ 0", "<0.2", "<1", "<3.4", ">3.4"), palette="Spectral")+
+  scale_fill_viridis(name = "WB-MTF, tier of access", labels = c("0", "1", "2", "3", "4+"), ,discrete = TRUE)+
   ggtitle("")+
   ylab("")+
   xlab("")+
@@ -1106,7 +1107,7 @@ pgrid_titles = plot_grid(tit_a, tit_b, ncol=2, rel_heights=c(1,1))
 
 pgrid = plot_grid(pgrid_titles, pgrid, ncol=1, rel_heights=c(0.075,1), rel_widths = c(1,1))
 
-ggsave("figures/Barplot_consumption.png", plot = pgrid, device = "png", width = 48, height = 40, units = "cm", scale=0.4)
+ggsave("figures/Figure_4.pdf", plot = pgrid, device = "pdf", width = 48, height = 40, units = "cm", scale=0.4)
 
 #Hotspots identification
 #Steepest declining access rates
